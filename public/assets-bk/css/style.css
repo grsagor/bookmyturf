@@ -1,0 +1,18 @@
+.stats-list {
+    display: grid;
+    grid-template-columns: repeat(5,1fr);
+}
+@media screen and (max-width: 768px) {
+    .stats-list {
+        grid-template-columns: repeat(3,1fr);
+    }
+}
+@media screen and (max-width: 576px) {
+    .stats-list {
+        grid-template-columns: repeat(2,1fr);
+    }
+}
+.skill-bars li .position-relative {
+    background: #a1a1a1;
+    height: 0.6rem;
+}

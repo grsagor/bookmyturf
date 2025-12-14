@@ -1,0 +1,45 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: bookmyturf_app
+    working_dir: /var/www/html
+    volumes:
+      - .:/var/www/html
+    ports:
+      - "9002:8000"
+    depends_on:
+      - db
+    tty: true
+    # command: ./wait-for-it.sh db:3306 --timeout=60 -- php artisan serve --host=0.0.0.0 --port=8000
+
+  db:
+    image: mysql:5.7
+    platform: linux/amd64
+    container_name: bookmyturf_db
+    restart: unless-stopped
+    ports:
+      - "3310:3306"
+    environment:
+      MYSQL_DATABASE: bookmyturf_db
+      MYSQL_USER: user
+      MYSQL_PASSWORD: secret
+      MYSQL_ROOT_PASSWORD: root
+    # volumes:
+    #   - ./ubs_production.sql:/docker-entrypoint-initdb.d/ubs_production.sql
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    platform: linux/amd64
+    container_name: bookmyturf_phpmyadmin
+    restart: unless-stopped
+    ports:
+      - "8084:80"
+    environment:
+      PMA_HOST: db
+      PMA_USER: root
+      PMA_PASSWORD: root
+      UPLOAD_LIMIT: 128M
+      MAX_EXECUTION_TIME: 600
+      MEMORY_LIMIT: 512M
